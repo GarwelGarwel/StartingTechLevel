@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ModMetaData>
+	<name>Starting Tech Level</name>
+	<author>Garwel</author>
+	<url>https://github.com/GarwelGarwel/StartingTechLevel</url>
+	<packageId>Garwel.StartingTechLevel</packageId>
+	<supportedVersions>
+		<li>1.4</li>
+	</supportedVersions>
+	<description>This mod allows you to select any tech level for your faction, from Animal to Ultra. It adds a new screen after Storyteller configuration, where you can choose the tech level and other options.</description>
+	<modDependencies>
+		<li>
+			<packageId>brrainz.harmony</packageId>
+			<displayName>Harmony</displayName>
+			<steamWorkshopUrl>steam://url/CommunityFilePage/2009463077</steamWorkshopUrl>
+			<downloadUrl>https://github.com/pardeike/HarmonyRimWorld/releases/latest</downloadUrl>
+		</li>
+	</modDependencies>
+	<loadAfter>
+		<li>brrainz.harmony</li>
+		<li>Ludeon.RimWorld</li>
+	</loadAfter>
+</ModMetaData>
