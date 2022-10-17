@@ -20,14 +20,43 @@ namespace StartingTechLevel
         void SetTechLevel(Faction faction)
         {
             // Setting correct player faction type
-            faction.def = techLevel >= TechLevel.Industrial ? FactionDefOf.PlayerColony : FactionDefOf.PlayerTribe;
-            if (!grantStartingTechs || techLevel == TechLevel.Animal)
-                faction.def.startingResearchTags.Clear();
+            switch (techLevel)
+            {
+                case TechLevel.Animal:
+                    faction.def = FactionDefOf.PlayerBand;
+                    break;
 
-            // Setting tech level
-            TechLevel oldTechLevel = faction.def.techLevel;
-            faction.def.techLevel = techLevel;
-            Log($"Player faction {faction.Name} changed tech level from {oldTechLevel.ToStringSafe()} to {faction.def.techLevel.ToStringSafe()}");
+                case TechLevel.Neolithic:
+                    faction.def = FactionDefOf.PlayerTribe;
+                    break;
+
+                case TechLevel.Medieval:
+                    faction.def = FactionDefOf.PlayerKingdom;
+                    break;
+
+                case TechLevel.Industrial:
+                    faction.def = FactionDefOf.PlayerColony;
+                    break;
+
+                case TechLevel.Spacer:
+                    faction.def = FactionDefOf.PlayerSpaceColony;
+                    break;
+
+                case TechLevel.Ultra:
+                    faction.def = FactionDefOf.PlayerGlitterworldColony;
+                    break;
+
+                case TechLevel.Archotech:
+                    faction.def = FactionDefOf.PlayerArchotechColony;
+                    break;
+
+                default:
+                    faction.def.techLevel = techLevel;
+                    break;
+            }
+
+            if (!grantStartingTechs)
+                faction.def.startingResearchTags.Clear();
 
             // Researching techs from previous levels
             foreach (ResearchProjectDef researchProject in DefDatabase<ResearchProjectDef>.AllDefs.Where(researchProject => researchProject.techLevel < techLevel))
@@ -79,6 +108,7 @@ namespace StartingTechLevel
                 defaultTechLevel = true;
                 techLevel = TechLevel.Undefined;
             }
+
             for (TechLevel l = TechLevel.Animal; l <= TechLevel.Archotech; l++)
                 if (RadioButtonLabeled(ref mainRect, l.ToStringHuman().CapitalizeFirst(), techLevel == l, new TipSignal($"Start with {techsByLevel[(int)l - 1]} techs")))
                 {

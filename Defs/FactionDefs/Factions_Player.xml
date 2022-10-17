@@ -1,0 +1,214 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<FactionDef ParentName="PlayerFactionBase">
+		<defName>PlayerBand</defName>
+		<label>New Band</label>
+		<description>A small prehistoric band.</description>
+		<isPlayer>true</isPlayer>
+		<categoryTag>Animal</categoryTag>
+		<pawnSingular>protohuman</pawnSingular>
+		<pawnsPlural>protohumans</pawnsPlural>
+		<basicMemberKind>Tribesperson</basicMemberKind>
+		<techLevel>Animal</techLevel>
+		<factionNameMaker>NamerFactionTribal</factionNameMaker>
+		<settlementNameMaker>NamerSettlementTribal</settlementNameMaker>
+		<allowedCultures>
+			<li>Corunan</li>
+		</allowedCultures>
+		<disallowedMemes>
+			<li MayRequire="Ludeon.RimWorld.Ideology">Transhumanist</li>
+			<li MayRequire="Ludeon.RimWorld.Ideology">Structure_Ideological</li>
+			<li MayRequire="Ludeon.RimWorld.Ideology">Structure_Archist</li>
+			<li MayRequire="Ludeon.RimWorld.Ideology">Structure_OriginChristian</li>
+			<li MayRequire="Ludeon.RimWorld.Ideology">Structure_OriginIslamic</li>
+			<li MayRequire="Ludeon.RimWorld.Ideology">Structure_OriginHindu</li>
+			<li MayRequire="Ludeon.RimWorld.Ideology">Structure_OriginBuddhist</li>
+		</disallowedMemes>
+		<disallowedPrecepts>
+			<li MayRequire="Ludeon.RimWorld.Ideology">Nudity_Male_CoveringAnythingButGroinDisapproved</li>
+			<li MayRequire="Ludeon.RimWorld.Ideology">Nudity_Female_CoveringAnythingButGroinDisapproved</li>
+			<li MayRequire="Ludeon.RimWorld.Ideology">NutrientPasteEating_DontMind</li>
+			<li MayRequire="Ludeon.RimWorld.Ideology">BodyMod_Approved</li>
+			<li MayRequire="Ludeon.RimWorld.Ideology">Darklight_Preferred</li>
+			<li MayRequire="Ludeon.RimWorld.Ideology">OrganUse_Acceptable</li>
+			<li MayRequire="Ludeon.RimWorld.Ideology">SleepAccelerator_Preferred</li>
+			<li MayRequire="Ludeon.RimWorld.Ideology">NeuralSupercharge_Preferred</li>
+			<li MayRequire="Ludeon.RimWorld.Ideology">Biosculpting_Accelerated</li>
+			<li MayRequire="Ludeon.RimWorld.Ideology">AgeReversal_Demanded</li>
+		</disallowedPrecepts>
+		<backstoryFilters>
+			<li>
+				<categories>
+					<li>Animal</li>
+					<li>Tribal</li>
+				</categories>
+			</li>
+		</backstoryFilters>
+		<factionIconPath>World/WorldObjects/Expanding/Village</factionIconPath>
+		<settlementTexturePath>World/WorldObjects/TribalSettlement</settlementTexturePath>
+		<forageabilityFactor>1.9</forageabilityFactor>
+		<apparelStuffFilter>
+			<thingDefs>
+				<li>Cloth</li>
+			</thingDefs>
+		</apparelStuffFilter>
+		<recipePrerequisiteTags>
+			<li>Animal</li>
+			<li>Tribal</li>
+		</recipePrerequisiteTags>
+	</FactionDef>
+
+	<FactionDef ParentName="PlayerFactionBase">
+		<defName>PlayerKingdom</defName>
+		<label>New Kingdom</label>
+		<description>A small kingdom.</description>
+		<isPlayer>true</isPlayer>
+		<categoryTag>Medieval</categoryTag>
+		<pawnSingular>subject</pawnSingular>
+		<pawnsPlural>subjects</pawnsPlural>
+		<basicMemberKind>Tribesperson</basicMemberKind>
+		<techLevel>Medieval</techLevel>
+		<factionNameMaker>NamerFactionTribal</factionNameMaker>
+		<settlementNameMaker>NamerSettlementTribal</settlementNameMaker>
+		<allowedCultures>
+			<li>Corunan</li>
+		</allowedCultures>
+		<disallowedMemes>
+			<li MayRequire="Ludeon.RimWorld.Ideology">Transhumanist</li>
+		</disallowedMemes>
+		<disallowedPrecepts>
+ 			<li MayRequire="Ludeon.RimWorld.Ideology">NutrientPasteEating_DontMind</li>
+			<li MayRequire="Ludeon.RimWorld.Ideology">BodyMod_Approved</li>
+			<li MayRequire="Ludeon.RimWorld.Ideology">OrganUse_Acceptable</li>
+			<li MayRequire="Ludeon.RimWorld.Ideology">SleepAccelerator_Preferred</li>
+			<li MayRequire="Ludeon.RimWorld.Ideology">NeuralSupercharge_Preferred</li>
+			<li MayRequire="Ludeon.RimWorld.Ideology">Biosculpting_Accelerated</li>
+			<li MayRequire="Ludeon.RimWorld.Ideology">AgeReversal_Demanded</li>
+		</disallowedPrecepts>
+		<backstoryFilters>
+			<li>
+				<categories>
+					<li>Tribal</li>
+					<li>Medieval</li>
+				</categories>
+			</li>
+		</backstoryFilters>
+		<factionIconPath>World/WorldObjects/Expanding/Village</factionIconPath>
+		<settlementTexturePath>World/WorldObjects/TribalSettlement</settlementTexturePath>
+		<forageabilityFactor>1.5</forageabilityFactor>
+		<startingResearchTags>
+			<li>TribalStart</li>
+		</startingResearchTags>
+		<startingTechprintsResearchTags>
+			<li>TribalStart</li>
+			<li>TribalStartTechprints</li>
+		</startingTechprintsResearchTags>
+		<apparelStuffFilter>
+			<thingDefs>
+				<li>Cloth</li>
+			</thingDefs>
+			<categories>
+				<li>Wools</li>
+				<li>Leathers</li>
+			</categories>
+		</apparelStuffFilter>
+		<recipePrerequisiteTags>
+			<li>Animal</li>
+			<li>Tribal</li>
+			<li>Medieval</li>
+		</recipePrerequisiteTags>
+	</FactionDef>
+
+	<FactionDef ParentName="PlayerFactionBase">
+		<defName>PlayerSpaceColony</defName>
+		<label>New Space Settlers</label>
+		<description>A colony of space travelers.</description>
+		<isPlayer>true</isPlayer>
+		<basicMemberKind>Colonist</basicMemberKind>
+		<pawnSingular>space settler</pawnSingular>
+		<pawnsPlural>space settlers</pawnsPlural>
+		<techLevel>Spacer</techLevel>
+		<factionNameMaker>NamerFactionOutlander</factionNameMaker>
+		<settlementNameMaker>NamerSettlementOutlander</settlementNameMaker>
+		<allowedCultures><li>Astropolitan</li></allowedCultures>
+		<backstoryFilters>
+			<li>
+				<categories>
+					<li>Offworld</li>
+				</categories>
+			</li>
+		</backstoryFilters>
+		<factionIconPath>World/WorldObjects/Expanding/Town</factionIconPath>
+		<startingResearchTags>
+			<li>ClassicStart</li>
+		</startingResearchTags>
+		<startingTechprintsResearchTags>
+			<li>ClassicStart</li>
+			<li>ClassicStartTechprints</li>
+		</startingTechprintsResearchTags>
+		<apparelStuffFilter>
+			<thingDefs>
+				<li>Synthread</li>
+			</thingDefs>
+		</apparelStuffFilter>
+	</FactionDef>
+
+	<FactionDef ParentName="PlayerFactionBase">
+		<defName>PlayerGlitterworldColony</defName>
+		<label>New Glitterworld Offspring</label>
+		<description>A colony of travelers from a glitterworld.</description>
+		<isPlayer>true</isPlayer>
+		<basicMemberKind>Colonist</basicMemberKind>
+		<pawnSingular>ultrahuman</pawnSingular>
+		<pawnsPlural>ultrahumans</pawnsPlural>
+		<techLevel>Ultra</techLevel>
+		<factionNameMaker>NamerFactionOutlander</factionNameMaker>
+		<settlementNameMaker>NamerSettlementOutlander</settlementNameMaker>
+		<allowedCultures><li>Astropolitan</li></allowedCultures>
+		<backstoryFilters>
+			<li>
+				<categories>
+					<li>Offworld</li>
+					<li>Ultra</li>
+				</categories>
+			</li>
+		</backstoryFilters>
+		<factionIconPath>World/WorldObjects/Expanding/Town</factionIconPath>
+		<apparelStuffFilter>
+			<thingDefs>
+				<li>Synthread</li>
+				<li>Hyperweave</li>
+			</thingDefs>
+		</apparelStuffFilter>
+	</FactionDef>
+
+	<FactionDef ParentName="PlayerFactionBase">
+		<defName>PlayerArchotechColony</defName>
+		<label>New Archotech Beings</label>
+		<description>A settlement of transcendent archotech beings.</description>
+		<isPlayer>true</isPlayer>
+		<basicMemberKind>Colonist</basicMemberKind>
+		<pawnSingular>archobeing</pawnSingular>
+		<pawnsPlural>archobeings</pawnsPlural>
+		<techLevel>Archotech</techLevel>
+		<factionNameMaker>NamerFactionOutlander</factionNameMaker>
+		<settlementNameMaker>NamerSettlementOutlander</settlementNameMaker>
+		<allowedCultures><li>Astropolitan</li></allowedCultures>
+		<backstoryFilters>
+			<li>
+				<categories>
+					<li>Offworld</li>
+					<li>Ultra</li>
+				</categories>
+			</li>
+		</backstoryFilters>
+		<factionIconPath>World/WorldObjects/Expanding/Town</factionIconPath>
+		<apparelStuffFilter>
+			<thingDefs>
+				<li>Hyperweave</li>
+			</thingDefs>
+		</apparelStuffFilter>
+	</FactionDef>
+
+</Defs>

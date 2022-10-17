@@ -69,6 +69,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FactionDefOf.cs" />
     <Compile Include="LogUtility.cs" />
     <Compile Include="Page_SelectTechLevel.cs" />
     <Compile Include="ResearchProjectUtility.cs" />
