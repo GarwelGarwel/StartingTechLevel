@@ -11,6 +11,7 @@ namespace StartingTechLevel
     public class Page_SelectTechLevel : Page
     {
         bool defaultTechLevel = true;
+        bool randomTechLevel = false;
         TechLevel techLevel;
         bool grantStartingTechs = true;
         List<int> techsByLevel = new List<int>(7);
@@ -19,6 +20,12 @@ namespace StartingTechLevel
 
         void SetTechLevel(Faction faction)
         {
+            if (randomTechLevel)
+            {
+                techLevel = (TechLevel)Rand.RangeInclusive((int)TechLevel.Animal, (int)TechLevel.Archotech);
+                Log($"Randomly selected {techLevel.ToStringSafe()} tech level.");
+            }
+
             // Setting correct player faction type
             switch (techLevel)
             {
@@ -106,17 +113,25 @@ namespace StartingTechLevel
             if (RadioButtonLabeled(ref mainRect, "Default", defaultTechLevel, "Vanilla start"))
             {
                 defaultTechLevel = true;
+                randomTechLevel = false;
                 techLevel = TechLevel.Undefined;
             }
 
             for (TechLevel l = TechLevel.Animal; l <= TechLevel.Archotech; l++)
                 if (RadioButtonLabeled(ref mainRect, l.ToStringHuman().CapitalizeFirst(), techLevel == l, new TipSignal($"Start with {techsByLevel[(int)l - 1]} techs")))
                 {
-                    defaultTechLevel = false;
+                    defaultTechLevel = randomTechLevel = false;
                     techLevel = l;
                 }
 
-            if (techLevel == TechLevel.Neolithic || techLevel == TechLevel.Industrial)
+            if (RadioButtonLabeled(ref mainRect, "Random", randomTechLevel, "Pick a tech level randomly"))
+            {
+                defaultTechLevel = false;
+                randomTechLevel = true;
+                techLevel = TechLevel.Undefined;
+            }
+
+            if (techLevel == TechLevel.Neolithic || techLevel == TechLevel.Industrial || randomTechLevel)
                 Widgets.CheckboxLabeled(mainRect, "Grant starting technologies", ref grantStartingTechs);
 
             Widgets.EndGroup();
