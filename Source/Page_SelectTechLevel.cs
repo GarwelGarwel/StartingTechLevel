@@ -19,6 +19,11 @@ namespace StartingTechLevel
 
         void SetTechLevel(Faction faction)
         {
+            // Setting correct player faction type
+            faction.def = techLevel >= TechLevel.Industrial ? FactionDefOf.PlayerColony : FactionDefOf.PlayerTribe;
+            if (!grantStartingTechs || techLevel == TechLevel.Animal)
+                faction.def.startingResearchTags.Clear();
+
             // Setting tech level
             TechLevel oldTechLevel = faction.def.techLevel;
             faction.def.techLevel = techLevel;
@@ -30,14 +35,6 @@ namespace StartingTechLevel
                 Log($"Finishing research project {researchProject} ({researchProject.LabelCap}).");
                 Find.ResearchManager.FinishProject(researchProject, doCompletionLetter: false);
             }
-
-            // Setting correct starting research tags
-            faction.def.startingResearchTags.Clear();
-            if (grantStartingTechs)
-                if (techLevel >= TechLevel.Industrial)
-                    faction.def.startingResearchTags.Add(ResearchProjectTagDefOf.ClassicStart);
-                else if (techLevel >= TechLevel.Neolithic)
-                    faction.def.startingResearchTags.Add(DefDatabase<ResearchProjectTagDef>.GetNamed("TribalStart"));
         }
 
         protected override void DoNext()
