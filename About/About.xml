@@ -8,7 +8,7 @@
 	<supportedVersions>
 		<li>1.4</li>
 	</supportedVersions>
-	<description>This mod allows you to select any tech level for your faction, from Animal to Ultra. It adds a new screen after Storyteller configuration, where you can choose the tech level and other options.</description>
+	<description>This mod allows you to select any tech level for your faction, from Animal to Archotech. It adds a new screen after Storyteller configuration, where you can choose the tech level and other options.</description>
 	<modDependencies>
 		<li>
 			<packageId>brrainz.harmony</packageId>
