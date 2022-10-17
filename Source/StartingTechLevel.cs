@@ -24,24 +24,23 @@ namespace StartingTechLevel
         }
 
         /// <summary>
-        /// Adds Select Tech Level page after the first one
+        /// Adds Select Tech Level page
         /// </summary>
-        /// <param name="__result"></param>
         public static void Scenario_GetFirstConfigPage(ref Page __result)
         {
             Log("Scenario_GetFirstConfigPage");
-            Page storytellerPage = __result;
-            while (storytellerPage != null && !(storytellerPage is Page_SelectStoryteller))
-                storytellerPage = storytellerPage.next;
-            if (storytellerPage == null)
+            Page previousPage = __result;
+            while (previousPage != null && !(previousPage is Page_SelectStartingSite))
+                previousPage = previousPage.next;
+            if (previousPage == null)
             {
-                Log($"Select Storyteller page not found. First page: {__result?.PageTitle}.", LogLevel.Important);
+                Log($"Page_SelectStartingSite not found. First page: {__result?.PageTitle}.", LogLevel.Important);
                 return;
             }
             Page_SelectTechLevel newPage = new Page_SelectTechLevel();
-            newPage.prev = storytellerPage;
-            newPage.next = storytellerPage.next;
-            storytellerPage.next = newPage;
+            newPage.prev = previousPage;
+            newPage.next = previousPage.next;
+            previousPage.next = newPage;
             newPage.next.prev = newPage;
             Log("Select Tech Level page added.");
         }
