@@ -47,7 +47,7 @@
 		</backstoryFilters>
 		<factionIconPath>World/WorldObjects/Expanding/Village</factionIconPath>
 		<settlementTexturePath>World/WorldObjects/TribalSettlement</settlementTexturePath>
-		<forageabilityFactor>1.9</forageabilityFactor>
+		<forageabilityFactor>2</forageabilityFactor>
 		<apparelStuffFilter>
 			<thingDefs>
 				<li>Cloth</li>
@@ -96,7 +96,7 @@
 		</backstoryFilters>
 		<factionIconPath>World/WorldObjects/Expanding/Village</factionIconPath>
 		<settlementTexturePath>World/WorldObjects/TribalSettlement</settlementTexturePath>
-		<forageabilityFactor>1.5</forageabilityFactor>
+		<forageabilityFactor>1.4</forageabilityFactor>
 		<startingResearchTags>
 			<li>TribalStart</li>
 		</startingResearchTags>
@@ -140,6 +140,7 @@
 			</li>
 		</backstoryFilters>
 		<factionIconPath>World/WorldObjects/Expanding/Town</factionIconPath>
+		<forageabilityFactor>0.8</forageabilityFactor>
 		<startingResearchTags>
 			<li>ClassicStart</li>
 		</startingResearchTags>
@@ -175,6 +176,7 @@
 			</li>
 		</backstoryFilters>
 		<factionIconPath>World/WorldObjects/Expanding/Town</factionIconPath>
+		<forageabilityFactor>0.6</forageabilityFactor>
 		<apparelStuffFilter>
 			<thingDefs>
 				<li>Synthread</li>
@@ -204,6 +206,7 @@
 			</li>
 		</backstoryFilters>
 		<factionIconPath>World/WorldObjects/Expanding/Town</factionIconPath>
+		<forageabilityFactor>0.5</forageabilityFactor>
 		<apparelStuffFilter>
 			<thingDefs>
 				<li>Hyperweave</li>
