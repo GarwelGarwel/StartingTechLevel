@@ -6,9 +6,20 @@
 	<url>https://github.com/GarwelGarwel/StartingTechLevel</url>
 	<packageId>Garwel.StartingTechLevel</packageId>
 	<supportedVersions>
+		<li>1.3</li>
 		<li>1.4</li>
 	</supportedVersions>
-	<description>This mod allows you to select any tech level for your faction, from Animal to Archotech. It adds a new screen after Storyteller configuration, where you can choose the tech level and other options.</description>
+	<description>With this mod, you can start your game at any tech level, from protohuman Animal to mysterious Archotech. For every level, there is a unique player faction with its own perks (such as forageability and, if you own Ideology DLC, disallowed precepts). All technologies from previous tech levels will be known to you, and respective research bonuses/maluses will be applied. Optionally, you can also have appropriate starting techs like in vanilla (e.g. Electricity for Industrial level start).
+
+The mod adds a new screen after you choose your starting location, where you can pick the tech level and other options. Just select the level of your choice or let the RNG do it for you, decide whether you need the starting techs, and click Next. Want vanilla experience this time? Then simply leave the choice as Default, no need to disable the mod.
+
+This mod should work well with any other mods except those that add/replace/remove player factions.
+
+Recommended mods:
+- Tech Advancing (allows you to upgrade your tech level)
+- Primitive Workbenches (for Animal and Tribal starts)
+
+Github: https://github.com/GarwelGarwel/StartingTechLevel</description>
 	<modDependencies>
 		<li>
 			<packageId>brrainz.harmony</packageId>
