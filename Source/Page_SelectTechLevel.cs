@@ -1,6 +1,7 @@
 ﻿using RimWorld;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using UnityEngine;
 using Verse;
 
@@ -18,66 +19,64 @@ namespace StartingTechLevel
 
         public override string PageTitle => "Choose Tech Level";
 
-        void SetTechLevel(Faction faction)
+        static FactionDef GetFactionDef(TechLevel techLevel)
         {
-            if (randomTechLevel)
-            {
-                techLevel = (TechLevel)Rand.RangeInclusive((int)TechLevel.Animal, (int)TechLevel.Archotech);
-                Log($"Randomly selected {techLevel.ToStringSafe()} tech level.");
-            }
-
-            // Setting correct player faction type
             switch (techLevel)
             {
                 case TechLevel.Animal:
-                    faction.def = FactionDefOf.PlayerBand;
-                    break;
+                    return FactionDefOf.PlayerBand;
 
                 case TechLevel.Neolithic:
-                    faction.def = FactionDefOf.PlayerTribe;
-                    break;
+                    return FactionDefOf.PlayerTribe;
 
                 case TechLevel.Medieval:
-                    faction.def = FactionDefOf.PlayerKingdom;
-                    break;
+                    return FactionDefOf.PlayerKingdom;
 
                 case TechLevel.Industrial:
-                    faction.def = FactionDefOf.PlayerColony;
-                    break;
+                    return FactionDefOf.PlayerColony;
 
                 case TechLevel.Spacer:
-                    faction.def = FactionDefOf.PlayerSpaceColony;
-                    break;
+                    return FactionDefOf.PlayerSpaceColony;
 
                 case TechLevel.Ultra:
-                    faction.def = FactionDefOf.PlayerGlitterworldColony;
-                    break;
+                    return FactionDefOf.PlayerGlitterworldColony;
 
                 case TechLevel.Archotech:
-                    faction.def = FactionDefOf.PlayerArchotechColony;
-                    break;
-
-                default:
-                    faction.def.techLevel = techLevel;
-                    break;
+                    return FactionDefOf.PlayerArchotechColony;
             }
-
-            if (!grantStartingTechs)
-                faction.def.startingResearchTags.Clear();
-
-            // Researching techs from previous levels
-            foreach (ResearchProjectDef researchProject in DefDatabase<ResearchProjectDef>.AllDefs.Where(researchProject => researchProject.techLevel < techLevel))
-            {
-                Log($"Finishing research project {researchProject} ({researchProject.LabelCap}).");
-                Find.ResearchManager.FinishProject(researchProject, doCompletionLetter: false);
-            }
+            return null;
         }
 
         protected override void DoNext()
         {
-            Faction playerFaction = Find.GameInitData.playerFaction;
-            if (!defaultTechLevel && playerFaction != null)
-                SetTechLevel(playerFaction);
+            if (!defaultTechLevel && Find.GameInitData.playerFaction != null)
+            {
+                if (randomTechLevel)
+                {
+                    techLevel = (TechLevel)Rand.RangeInclusive((int)TechLevel.Animal, (int)TechLevel.Archotech);
+                    Log($"Randomly selected {techLevel.ToStringSafe()} tech level.");
+                }
+                else Log($"Setting tech level {techLevel}.");
+
+                // Setting correct player faction type
+                FactionDef factionDef = GetFactionDef(techLevel);
+                if (factionDef != null)
+                    Find.GameInitData.playerFaction.def = factionDef;
+                else Find.GameInitData.playerFaction.def.techLevel = techLevel;
+                Log($"Set player faction to {Find.GameInitData.playerFaction.def.defName}.");
+
+                if (!grantStartingTechs)
+                    Find.GameInitData.playerFaction.def.startingResearchTags.Clear();
+
+                // Researching techs from previous levels
+                int rp = 0;
+                foreach (ResearchProjectDef researchProject in DefDatabase<ResearchProjectDef>.AllDefs.Where(researchProject => researchProject.techLevel < techLevel))
+                {
+                    Find.ResearchManager.FinishProject(researchProject, doCompletionLetter: false);
+                    rp++;
+                }
+                Log($"Finished {rp} research projects.");
+            }
             base.DoNext();
         }
 
@@ -93,24 +92,15 @@ namespace StartingTechLevel
             base.PreOpen();
         }
 
-        bool RadioButtonLabeled(ref Rect rect, string labelText, bool chosen, TipSignal tipSignal)
-        {
-            bool res = Widgets.RadioButton(rect.x, rect.y, chosen);
-            float y = rect.y;
-            Widgets.Label(rect.x + Widgets.RadioButtonSize + 5, ref y, rect.width - Widgets.RadioButtonSize - 5, labelText, tipSignal);
-            rect.y += Widgets.RadioButtonSize + 15;
-            rect.height -= Widgets.RadioButtonSize + 15;
-            return res;
-        }
-
         public override void DoWindowContents(Rect rect)
         {
             DrawPageTitle(rect);
-            Rect mainRect = GetMainRect(rect);
-            Widgets.BeginGroup(mainRect);
+            Listing_Standard listing = new Listing_Standard();
             Text.Anchor = TextAnchor.UpperLeft;
+            listing.verticalSpacing = 5;
+            listing.Begin(GetMainRect(rect).LeftPart(0.3f));
 
-            if (RadioButtonLabeled(ref mainRect, "Default", defaultTechLevel, "Vanilla start"))
+            if (listing.RadioButton("Default", defaultTechLevel))
             {
                 defaultTechLevel = true;
                 randomTechLevel = false;
@@ -118,23 +108,43 @@ namespace StartingTechLevel
             }
 
             for (TechLevel l = TechLevel.Animal; l <= TechLevel.Archotech; l++)
-                if (RadioButtonLabeled(ref mainRect, l.ToStringHuman().CapitalizeFirst(), techLevel == l, new TipSignal($"Start with {techsByLevel[(int)l - 1]} techs")))
+                if (listing.RadioButton(l.ToStringHuman().CapitalizeFirst(), techLevel == l))
                 {
                     defaultTechLevel = randomTechLevel = false;
                     techLevel = l;
                 }
 
-            if (RadioButtonLabeled(ref mainRect, "Random", randomTechLevel, "Pick a tech level randomly"))
+            if (listing.RadioButton("Random", randomTechLevel))
             {
                 defaultTechLevel = false;
                 randomTechLevel = true;
                 techLevel = TechLevel.Undefined;
             }
 
-            if (techLevel == TechLevel.Neolithic || techLevel == TechLevel.Industrial || randomTechLevel)
-                Widgets.CheckboxLabeled(mainRect, "Grant starting technologies", ref grantStartingTechs);
+            FactionDef factionDef = defaultTechLevel ? Find.GameInitData?.playerFaction?.def : GetFactionDef(techLevel);
+            if (factionDef == null || !factionDef.startingResearchTags.NullOrEmpty())
+            {
+                listing.Gap();
+                listing.CheckboxLabeled("Grant starting technologies", ref grantStartingTechs);
+            }
 
-            Widgets.EndGroup();
+            listing.End();
+            listing.Begin(GetMainRect(rect).RightHalf());
+
+            if (factionDef != null)
+            {
+                listing.Label($"Your faction will be {factionDef.LabelCap}.");
+                if (!defaultTechLevel)
+                    listing.Label($"Start with {techsByLevel[(int)factionDef.techLevel - 1]} techs{(grantStartingTechs && !factionDef.startingResearchTags.NullOrEmpty() ? " (not including granted starting technologies)" : "")}.");
+                if (ModsConfig.IdeologyActive && (!factionDef.disallowedMemes.NullOrEmpty() || !factionDef.disallowedPrecepts.NullOrEmpty()))
+                    listing.Label(
+                        $"{factionDef.disallowedMemes.Count.ToStringSafe()} memes and {factionDef.disallowedPrecepts.Count.ToStringSafe()} precepts disallowed.",
+                        tooltip: $"Memes: {factionDef.disallowedMemes.Select(meme => meme.LabelCap.RawText).ToCommaList()}.\nPrecepts: {factionDef.disallowedPrecepts.Select(precept => precept.LabelCap.RawText).ToCommaList()}");
+                listing.Label($"Forageability factor: {factionDef.forageabilityFactor.ToStringPercent()}");
+
+            }
+
+            listing.End();
             DoBottomButtons(rect);
         }
     }
