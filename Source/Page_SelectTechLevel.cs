@@ -65,9 +65,6 @@ namespace StartingTechLevel
                 else Find.GameInitData.playerFaction.def.techLevel = techLevel;
                 Log($"Set player faction to {Find.GameInitData.playerFaction.def.defName}.");
 
-                if (!grantStartingTechs)
-                    Find.GameInitData.playerFaction.def.startingResearchTags.Clear();
-
                 // Researching techs from previous levels
                 int rp = 0;
                 foreach (ResearchProjectDef researchProject in DefDatabase<ResearchProjectDef>.AllDefs.Where(researchProject => researchProject.techLevel < techLevel))
@@ -77,6 +74,10 @@ namespace StartingTechLevel
                 }
                 Log($"Finished {rp} research projects.");
             }
+
+            if (!grantStartingTechs)
+                Find.GameInitData?.playerFaction?.def?.startingResearchTags?.Clear();
+
             base.DoNext();
         }
 
