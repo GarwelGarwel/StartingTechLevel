@@ -17,10 +17,11 @@ namespace StartingTechLevel
                 return;
 
             harmony = new Harmony("Garwel.StartingTechLevel");
-            harmony.Patch(
+            if (harmony.Patch(
                 AccessTools.Method($"RimWorld.Scenario:GetFirstConfigPage"),
-                postfix: new HarmonyMethod(typeof(StartingTechLevel).GetMethod("Scenario_GetFirstConfigPage")));
-            Log("StartingTechLevel initialized successfully.", LogLevel.Important);
+                postfix: new HarmonyMethod(typeof(StartingTechLevel).GetMethod("Scenario_GetFirstConfigPage"))) != null)
+                Log("StartingTechLevel initialized successfully.", LogLevel.Important);
+            else Log("Harmony.Patch returned null!", LogLevel.Error);
         }
 
         /// <summary>

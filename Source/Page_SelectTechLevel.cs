@@ -1,7 +1,6 @@
 ﻿using RimWorld;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using UnityEngine;
 using Verse;
 
@@ -13,6 +12,7 @@ namespace StartingTechLevel
     {
         bool defaultTechLevel = true;
         bool randomTechLevel = false;
+        bool researchOlderTechs = true;
         TechLevel techLevel;
         bool grantStartingTechs = true;
         List<int> techsByLevel = new List<int>(7);
@@ -66,13 +66,16 @@ namespace StartingTechLevel
                 Log($"Set player faction to {Find.GameInitData.playerFaction.def.defName}.");
 
                 // Researching techs from previous levels
-                int rp = 0;
-                foreach (ResearchProjectDef researchProject in DefDatabase<ResearchProjectDef>.AllDefs.Where(researchProject => researchProject.techLevel < techLevel))
+                if (researchOlderTechs)
                 {
-                    Find.ResearchManager.FinishProject(researchProject, doCompletionLetter: false);
-                    rp++;
+                    int rp = 0;
+                    foreach (ResearchProjectDef researchProject in DefDatabase<ResearchProjectDef>.AllDefs.Where(researchProject => researchProject.techLevel < techLevel))
+                    {
+                        Find.ResearchManager.FinishProject(researchProject, doCompletionLetter: false);
+                        rp++;
+                    }
+                    Log($"Finished {rp} research projects.");
                 }
-                Log($"Finished {rp} research projects.");
             }
 
             if (!grantStartingTechs)
@@ -121,13 +124,14 @@ namespace StartingTechLevel
                 randomTechLevel = true;
                 techLevel = TechLevel.Undefined;
             }
+            listing.Gap();
 
             FactionDef factionDef = defaultTechLevel ? Find.GameInitData?.playerFaction?.def : GetFactionDef(techLevel);
             if (factionDef == null || !factionDef.startingResearchTags.NullOrEmpty())
-            {
-                listing.Gap();
-                listing.CheckboxLabeled("Grant starting technologies", ref grantStartingTechs);
-            }
+                listing.CheckboxLabeled("Grant starting technologies", ref grantStartingTechs, "If checked, you will start with several basic technologies already researched (e.g. Electricity for Industrial start). Only applies to Neolithic and Industrial starts.");
+
+            if (randomTechLevel || (!defaultTechLevel && techsByLevel[(int)factionDef.techLevel - 1] > 0))
+                listing.CheckboxLabeled("Complete previous levels' technologies", ref researchOlderTechs, "If checked, you will start with all technologies from previous tech levels already researched.");
 
             listing.End();
             listing.Begin(GetMainRect(rect).RightHalf());
@@ -135,7 +139,7 @@ namespace StartingTechLevel
             if (factionDef != null)
             {
                 listing.Label($"Your faction will be {factionDef.LabelCap}.");
-                if (!defaultTechLevel)
+                if (!defaultTechLevel && researchOlderTechs)
                     listing.Label($"Start with {techsByLevel[(int)factionDef.techLevel - 1]} techs{(grantStartingTechs && !factionDef.startingResearchTags.NullOrEmpty() ? " (not including granted starting technologies)" : "")}.");
                 if (ModsConfig.IdeologyActive && (!factionDef.disallowedMemes.NullOrEmpty() || !factionDef.disallowedPrecepts.NullOrEmpty()))
                     listing.Label(
