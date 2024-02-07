@@ -77,7 +77,7 @@ namespace StartingTechLevel
                         Find.ResearchManager.FinishProject(researchProject, doCompletionLetter: false);
                         rp++;
                     }
-                    Log($"Finished {rp} research projects.");
+                    Log($"Finished {rp} old research projects.");
                 }
             }
 

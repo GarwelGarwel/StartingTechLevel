@@ -19,9 +19,8 @@ namespace StartingTechLevel
             harmony = new Harmony("Garwel.StartingTechLevel");
             if (harmony.Patch(
                 AccessTools.Method($"RimWorld.Scenario:GetFirstConfigPage"),
-                postfix: new HarmonyMethod(typeof(StartingTechLevel).GetMethod("Scenario_GetFirstConfigPage"))) != null)
-                Log("StartingTechLevel initialized successfully.", LogLevel.Important);
-            else Log("Harmony.Patch returned null!", LogLevel.Error);
+                postfix: new HarmonyMethod(typeof(StartingTechLevel).GetMethod("Scenario_GetFirstConfigPage"))) == null)
+            Log("Harmony.Patch returned null!", LogLevel.Error);
         }
 
         /// <summary>
@@ -35,7 +34,7 @@ namespace StartingTechLevel
                 previousPage = previousPage.next;
             if (previousPage == null)
             {
-                Log($"Page_SelectStartingSite not found. First page: {__result?.PageTitle}.", LogLevel.Important);
+                Log($"Page_SelectStartingSite not found. First page: {__result?.PageTitle}.", LogLevel.Error);
                 return;
             }
             Page_SelectTechLevel newPage = new Page_SelectTechLevel();
