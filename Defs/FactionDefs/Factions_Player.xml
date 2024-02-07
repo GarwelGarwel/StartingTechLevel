@@ -4,7 +4,7 @@
 	<FactionDef ParentName="PlayerFactionBase">
 		<defName>PlayerBand</defName>
 		<label>New Band</label>
-		<description>A small prehistoric band.</description>
+		<description>A band of semi-wild people.</description>
 		<isPlayer>true</isPlayer>
 		<categoryTag>Animal</categoryTag>
 		<pawnSingular>protohuman</pawnSingular>

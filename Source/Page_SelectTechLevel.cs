@@ -49,21 +49,24 @@ namespace StartingTechLevel
 
         protected override void DoNext()
         {
-            if (!defaultTechLevel && Find.GameInitData.playerFaction != null)
+            if (!defaultTechLevel && Find.GameInitData?.playerFaction != null)
             {
                 if (randomTechLevel)
                 {
                     techLevel = (TechLevel)Rand.RangeInclusive((int)TechLevel.Animal, (int)TechLevel.Archotech);
-                    Log($"Randomly selected {techLevel.ToStringSafe()} tech level.");
+                    Log($"Randomly selected {techLevel} tech level.");
                 }
                 else Log($"Setting tech level {techLevel}.");
 
                 // Setting correct player faction type
-                FactionDef factionDef = GetFactionDef(techLevel);
-                if (factionDef != null)
-                    Find.GameInitData.playerFaction.def = factionDef;
-                else Find.GameInitData.playerFaction.def.techLevel = techLevel;
-                Log($"Set player faction to {Find.GameInitData.playerFaction.def.defName}.");
+                if (Find.GameInitData.playerFaction.def.techLevel != techLevel)
+                {
+                    FactionDef factionDef = GetFactionDef(techLevel);
+                    if (factionDef != null)
+                        Find.GameInitData.playerFaction.def = factionDef;
+                    else Find.GameInitData.playerFaction.def.techLevel = techLevel;
+                    Log($"Set player faction to {Find.GameInitData.playerFaction.def}.");
+                }
 
                 // Researching techs from previous levels
                 if (researchOlderTechs)
@@ -87,8 +90,7 @@ namespace StartingTechLevel
         public override void PreOpen()
         {
             int total = 0;
-            techsByLevel.Add(0);
-            for (TechLevel l = TechLevel.Neolithic; l <= TechLevel.Archotech; l++)
+            for (TechLevel l = TechLevel.Animal; l <= TechLevel.Archotech; l++)
             {
                 total += ResearchProjectUtility.ResearchProjectsAtTechLevel(l - 1).Count();
                 techsByLevel.Add(total);
@@ -126,7 +128,7 @@ namespace StartingTechLevel
             }
             listing.Gap();
 
-            FactionDef factionDef = defaultTechLevel ? Find.GameInitData?.playerFaction?.def : GetFactionDef(techLevel);
+            FactionDef factionDef = defaultTechLevel || Find.GameInitData?.playerFaction?.def?.techLevel == techLevel ? Find.GameInitData?.playerFaction?.def : GetFactionDef(techLevel);
             if (factionDef == null || !factionDef.startingResearchTags.NullOrEmpty())
                 listing.CheckboxLabeled("Grant starting technologies", ref grantStartingTechs, "If checked, you will start with several basic technologies already researched (e.g. Electricity for Industrial start). Only applies to Neolithic and Industrial starts.");
 
@@ -146,7 +148,6 @@ namespace StartingTechLevel
                         $"{factionDef.disallowedMemes.Count.ToStringSafe()} memes and {factionDef.disallowedPrecepts.Count.ToStringSafe()} precepts disallowed.",
                         tooltip: $"Memes: {factionDef.disallowedMemes.Select(meme => meme.LabelCap.RawText).ToCommaList()}.\nPrecepts: {factionDef.disallowedPrecepts.Select(precept => precept.LabelCap.RawText).ToCommaList()}");
                 listing.Label($"Forageability factor: {factionDef.forageabilityFactor.ToStringPercent()}");
-
             }
 
             listing.End();
