@@ -72,7 +72,7 @@ namespace StartingTechLevel
                 if (researchOlderTechs)
                 {
                     int rp = 0;
-                    foreach (ResearchProjectDef researchProject in DefDatabase<ResearchProjectDef>.AllDefs.Where(researchProject => researchProject.techLevel < techLevel))
+                    foreach (ResearchProjectDef researchProject in DefDatabase<ResearchProjectDef>.AllDefs.Where(researchProject => researchProject.techLevel < techLevel && researchProject.techLevel != TechLevel.Undefined))
                     {
                         Find.ResearchManager.FinishProject(researchProject, doCompletionLetter: false);
                         rp++;
